@@ -9,6 +9,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors({ origin: "https://portfolio-five-peach-45.vercel.app" }));
+// Use the cors middleware to enable CORS
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -34,7 +35,19 @@ app.post("/api/contact", async (req, res) => {
     subject: "New Message from Contact Form",
     text: `Email: ${email}\nMessage: ${message}`,
   };
-  await transporter.sendMail(mailOptions);
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        reject(error); // Use `error` instead of `err`
+        res.status(500).send("Error sending email");
+      } else {
+        console.log("Email sent: " + info.response);
+        resolve(info);
+        res.status(200).send("Email sent successfully");
+      }
+    });
+  });
 });
 
 app.listen(PORT, () => {
