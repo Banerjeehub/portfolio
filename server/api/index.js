@@ -34,19 +34,7 @@ app.post("/api/contact", async (req, res) => {
     subject: "New Message from Contact Form",
     text: `Email: ${email}\nMessage: ${message}`,
   };
-  await new Promise((resolve, reject) => {
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log(error);
-        reject(error); // Use `error` instead of `err`
-        res.status(500).send("Error sending email");
-      } else {
-        console.log("Email sent: " + info.response);
-        resolve(info);
-        res.status(200).send("Email sent successfully");
-      }
-    });
-  });
+  await transporter.sendMail(mailOptions);
 });
 
 app.listen(PORT, () => {
