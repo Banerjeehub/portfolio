@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
-app.post("/api/contact", (req, res) => {
+app.post("/api/contact", async (req, res) => {
   const { email, message } = req.body;
 
   const transporter = nodemailer.createTransport({
@@ -34,15 +34,18 @@ app.post("/api/contact", (req, res) => {
     subject: "New Message from Contact Form",
     text: `Email: ${email}\nMessage: ${message}`,
   };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-      res.status(500).send("Error sending email");
-    } else {
-      console.log("Email sent: " + info.response);
-      res.status(200).send("Email sent successfully");
-    }
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        reject(err);
+        res.status(500).send("Error sending email");
+      } else {
+        console.log("Email sent: " + info.response);
+        resolve(info);
+        res.status(200).send("Email sent successfully");
+      }
+    });
   });
 });
 
