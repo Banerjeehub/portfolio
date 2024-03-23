@@ -12,9 +12,6 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello");
-});
 
 app.post("/api/contact", async (req, res) => {
   const { email, message } = req.body;

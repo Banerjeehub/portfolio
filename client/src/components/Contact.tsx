@@ -30,7 +30,7 @@ const Contact = () => {
         setMessage("");
         console.log(email, message);
       } else {
-        console.error("Failed to send email");
+        console.error("Failed to send email, asshole");
       }
     } catch (error) {
       console.error("Failed to send email 1", error);
