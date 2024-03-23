@@ -11,34 +11,34 @@ const Contact = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSending(true);
 
-    fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Another-Content-Type": "Authorization",
-      },
-      body: JSON.stringify({ email, message }),
-    })
-      .then((response) => {
-        console.log(response);
-        if (response.ok) {
-          setSendSuccess(true);
-          setEmail("");
-          setMessage("");
-          console.log(email, message);
-        } else {
-          console.error("Failed to send email, asshole");
-        }
-        setIsSending(false);
-      })
-      .catch((error) => {
-        console.error("Failed to send email 1", error);
-        setIsSending(false);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Another-Content-Type": "text/plain",
+        },
+        body: JSON.stringify({ email, message }),
       });
+      console.log(response);
+
+      if (response.ok) {
+        setSendSuccess(true);
+        setEmail("");
+        setMessage("");
+        console.log(email, message);
+      } else {
+        console.error("Failed to send email, asshole");
+      }
+    } catch (error) {
+      console.error("Failed to send email 1", error);
+    }
+
+    setIsSending(false);
   };
 
   return (
