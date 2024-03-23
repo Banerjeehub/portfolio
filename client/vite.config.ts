@@ -7,6 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api/contact": "https://portfolio-api-gamma-woad.vercel.app/",
+      "/hello": "https://portfolio-api-gamma-woad.vercel.app/",
     },
   },
 });
