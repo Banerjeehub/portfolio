@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const { SMTPClient } = require("emailjs");
-
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const cors = require("cors"); // Import the cors middleware
@@ -9,12 +8,7 @@ const cors = require("cors"); // Import the cors middleware
 const app = express();
 const PORT = 3000;
 
-app.use(
-  cors({
-    origin: "https://portfolio-five-peach-45.vercel.app",
-    optionsSuccessStatus: 200,
-  })
-); // Enable CORS with optionsSuccessStatus
+app.use(cors({ origin: "https://portfolio-five-peach-45.vercel.app" }));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -25,12 +19,13 @@ app.get("/", (req, res) => {
 app.post("/api/contact", async (req, res) => {
   const { email, message } = req.body;
 
-  const client = new SMTPClient({
-    port: 587,
-    tls: true,
-    host: process.env.SMTP_HOST,
-    user: process.env.EMAIL,
-    password: process.env.PASS,
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASS,
+    },
   });
 
   const mailOptions = {
@@ -39,16 +34,19 @@ app.post("/api/contact", async (req, res) => {
     subject: "New Message from Contact Form",
     text: `Email: ${email}\nMessage: ${message}`,
   };
-
-  try {
-    await client.sendAsync(mailOptions);
-    res.status(200).send("Email sent successfully");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error sending email");
-  } finally {
-    client.close();
-  }
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        reject(error); // Use `error` instead of `err`
+        res.status(500).send("Error sending email");
+      } else {
+        console.log("Email sent: " + info.response);
+        resolve(info);
+        res.status(200).send("Email sent successfully");
+      }
+    });
+  });
 });
 
 app.listen(PORT, () => {
