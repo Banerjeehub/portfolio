@@ -9,7 +9,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors({ origin: "https://portfolio-five-peach-45.vercel.app" }));
-// Use the cors middleware to enable CORS
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
