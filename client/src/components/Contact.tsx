@@ -23,6 +23,7 @@ const Contact = () => {
         },
         body: JSON.stringify({ email, message }),
       });
+      console.log(response);
 
       if (response.ok) {
         setSendSuccess(true);
