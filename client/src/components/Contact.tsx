@@ -11,19 +11,9 @@ const Contact = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
-  const getIt = async () => {
-    try {
-      const res = await fetch("/api/hello");
-      const data = await res.text();
-      console.log(data);
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    getIt();
+
     setIsSending(true);
 
     try {

@@ -10,10 +10,6 @@ export default defineConfig({
         target: "https://portfolio-api-gamma-woad.vercel.app/",
         changeOrigin: true,
       },
-      "/api/hello": {
-        target: "https://portfolio-api-gamma-woad.vercel.app/",
-        changeOrigin: true,
-      },
     },
   },
 });
