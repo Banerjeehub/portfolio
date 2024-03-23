@@ -20,6 +20,7 @@ const Contact = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Another-Content-Type": "Authorization",
         },
         body: JSON.stringify({ email, message }),
       });

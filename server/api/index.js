@@ -3,15 +3,18 @@ const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
+const cors = require("cors"); // Import the cors middleware
+
 const app = express();
 const PORT = 3000;
+
+app.use(cors()); // Use the cors middleware to enable CORS
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.send("Hello");
 });
-
 
 app.post("/api/contact", async (req, res) => {
   const { email, message } = req.body;
@@ -35,7 +38,7 @@ app.post("/api/contact", async (req, res) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log(error);
-        reject(err);
+        reject(error); // Use `error` instead of `err`
         res.status(500).send("Error sending email");
       } else {
         console.log("Email sent: " + info.response);
