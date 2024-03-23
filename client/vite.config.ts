@@ -6,8 +6,14 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api/contact": "https://portfolio-api-gamma-woad.vercel.app/",
-      "/hello": "https://portfolio-api-gamma-woad.vercel.app/",
+      "/api/contact": {
+        target: "https://portfolio-api-gamma-woad.vercel.app/",
+        changeOrigin: true,
+      },
+      "/hello": {
+        target: "https://portfolio-api-gamma-woad.vercel.app/",
+        changeOrigin: true,
+      },
     },
   },
 });

@@ -14,10 +14,10 @@ const Contact = () => {
   const getIt = async () => {
     try {
       const res = await fetch("/hello");
-      const data = await res.json();
+      const data = await res.text();
       console.log(data);
     } catch (error: any) {
-      console.log(error.message);
+      console.log(error);
     }
   };
 
