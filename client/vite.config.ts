@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api/contact": "https://portfolio-app-beta-three.vercel.app",
+      "/api/contact": "https://portfolio-api-gamma-woad.vercel.app/",
     },
   },
 });

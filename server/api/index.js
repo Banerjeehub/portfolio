@@ -28,7 +28,7 @@ app.post("/api/contact", (req, res) => {
   });
 
   const mailOptions = {
-    from: "mrbanerjeeproffesional@gmail.com",
+    from: "mebanerjee2020@gmail.com",
     to: "padmanavabanerjee2022@outlook.com",
     subject: "New Message from Contact Form",
     text: `Email: ${email}\nMessage: ${message}`,
